@@ -3,8 +3,6 @@
 This tests the convert and cast methods of all the polynomial classes.
 
 """
-from __future__ import division, absolute_import, print_function
-
 import operator as op
 from numbers import Number
 
@@ -16,7 +14,7 @@ from numpy.testing import (
     assert_almost_equal, assert_raises, assert_equal, assert_,
     )
 from numpy.compat import long
-
+from numpy.polynomial.polyutils import RankWarning
 
 #
 # fixtures
@@ -44,7 +42,7 @@ def assert_poly_almost_equal(p1, p2, msg=""):
         assert_(np.all(p1.window == p2.window))
         assert_almost_equal(p1.coef, p2.coef)
     except AssertionError:
-        msg = "Result: %s\nTarget: %s", (p1, p2)
+        msg = f"Result: {p1}\nTarget: {p2}"
         raise AssertionError(msg)
 
 
@@ -131,6 +129,17 @@ def test_fromroots(Poly):
     pwin = Polynomial.window
     p2 = Polynomial.cast(p1, domain=pdom, window=pwin)
     assert_almost_equal(p2.coef[-1], 1)
+
+
+def test_bad_conditioned_fit(Poly):
+
+    x = [0., 0., 1.]
+    y = [1., 2., 3.]
+
+    # check RankWarning is raised
+    with pytest.warns(RankWarning) as record:
+        Poly.fit(x, y, 2)
+    assert record[0].message.args[0] == "The fit may be poorly conditioned"
 
 
 def test_fit(Poly):
@@ -563,7 +572,7 @@ def test_ufunc_override(Poly):
 
 
 
-class TestLatexRepr(object):
+class TestLatexRepr:
     """Test the latex repr used by ipython """
 
     def as_latex(self, obj):
@@ -617,7 +626,7 @@ class TestLatexRepr(object):
 #
 
 
-class TestInterpolate(object):
+class TestInterpolate:
 
     def f(self, x):
         return x * (x - 1) * (x - 2)

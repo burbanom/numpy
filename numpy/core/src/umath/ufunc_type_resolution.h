@@ -44,6 +44,13 @@ PyUFunc_IsNaTTypeResolver(PyUFuncObject *ufunc,
                           PyArray_Descr **out_dtypes);
 
 NPY_NO_EXPORT int
+PyUFunc_IsFiniteTypeResolver(PyUFuncObject *ufunc,
+                             NPY_CASTING casting,
+                             PyArrayObject **operands,
+                             PyObject *type_tup,
+                             PyArray_Descr **out_dtypes);
+
+NPY_NO_EXPORT int
 PyUFunc_AdditionTypeResolver(PyUFuncObject *ufunc,
                              NPY_CASTING casting,
                              PyArrayObject **operands,
@@ -63,13 +70,6 @@ PyUFunc_MultiplicationTypeResolver(PyUFuncObject *ufunc,
                                    PyArrayObject **operands,
                                    PyObject *type_tup,
                                    PyArray_Descr **out_dtypes);
-
-NPY_NO_EXPORT int
-PyUFunc_MixedDivisionTypeResolver(PyUFuncObject *ufunc,
-                                  NPY_CASTING casting,
-                                  PyArrayObject **operands,
-                                  PyObject *type_tup,
-                                  PyArray_Descr **out_dtypes);
 
 NPY_NO_EXPORT int
 PyUFunc_TrueDivisionTypeResolver(PyUFuncObject *ufunc,

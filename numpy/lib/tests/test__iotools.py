@@ -1,5 +1,3 @@
-from __future__ import division, absolute_import, print_function
-
 import time
 from datetime import date
 
@@ -14,7 +12,7 @@ from numpy.lib._iotools import (
 from numpy.compat import unicode
 
 
-class TestLineSplitter(object):
+class TestLineSplitter:
     "Tests the LineSplitter class."
 
     def test_no_delimiter(self):
@@ -83,7 +81,7 @@ class TestLineSplitter(object):
 # -----------------------------------------------------------------------------
 
 
-class TestNameValidator(object):
+class TestNameValidator:
 
     def test_case_sensitivity(self):
         "Test case sensitivity"
@@ -141,7 +139,7 @@ def _bytes_to_date(s):
     return date(*time.strptime(s, "%Y-%m-%d")[:3])
 
 
-class TestStringConverter(object):
+class TestStringConverter:
     "Test StringConverter"
 
     def test_creation(self):
@@ -204,14 +202,18 @@ class TestStringConverter(object):
     def test_upgrademapper(self):
         "Tests updatemapper"
         dateparser = _bytes_to_date
-        StringConverter.upgrade_mapper(dateparser, date(2000, 1, 1))
-        convert = StringConverter(dateparser, date(2000, 1, 1))
-        test = convert('2001-01-01')
-        assert_equal(test, date(2001, 1, 1))
-        test = convert('2009-01-01')
-        assert_equal(test, date(2009, 1, 1))
-        test = convert('')
-        assert_equal(test, date(2000, 1, 1))
+        _original_mapper = StringConverter._mapper[:]
+        try:
+            StringConverter.upgrade_mapper(dateparser, date(2000, 1, 1))
+            convert = StringConverter(dateparser, date(2000, 1, 1))
+            test = convert('2001-01-01')
+            assert_equal(test, date(2001, 1, 1))
+            test = convert('2009-01-01')
+            assert_equal(test, date(2009, 1, 1))
+            test = convert('')
+            assert_equal(test, date(2000, 1, 1))
+        finally:
+            StringConverter._mapper = _original_mapper
 
     def test_string_to_object(self):
         "Make sure that string-to-object functions are properly recognized"
@@ -262,7 +264,7 @@ class TestStringConverter(object):
         assert_(converter(val) == 9223372043271415339)
 
 
-class TestMiscFunctions(object):
+class TestMiscFunctions:
 
     def test_has_nested_dtype(self):
         "Test has_nested_dtype"

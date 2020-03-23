@@ -1,5 +1,8 @@
 .. currentmodule:: numpy.ma
 
+.. for doctests
+   >>> import numpy as np
+   >>> from numpy import ma
 
 .. _numpy.ma.constants:
 
@@ -21,9 +24,9 @@ defines several constants.
       True
       >>> x[-1] = ma.masked
       >>> x
-      masked_array(data = [1 -- --],
-                   mask = [False  True  True],
-             fill_value = 999999)
+      masked_array(data=[1, --, --],
+                   mask=[False,  True,  True],
+             fill_value=999999)
 
 
 .. data:: nomask
@@ -160,9 +163,9 @@ replaced with ``n`` integers which will be interpreted as an n-tuple.
 Item selection and manipulation
 -------------------------------
 
-For array methods that take an *axis* keyword, it defaults to `None`.
-If axis is *None*, then the array is treated as a 1-D array.
-Any other value for *axis* represents the dimension along which
+For array methods that take an ``axis`` keyword, it defaults to None.
+If axis is None, then the array is treated as a 1-D array.
+Any other value for ``axis`` represents the dimension along which
 the operation should proceed.
 
 .. autosummary::
